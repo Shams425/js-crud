@@ -10,6 +10,8 @@ const editButtons = document.querySelectorAll(".editButton");
 let updateId;
 let showAllComments = true;
 
+// CRUD Operations
+//Create operation
 const submitComment = async () => {
   if (commentBtn.textContent === "Submit") {
     if (comment.value === "" && userName.value === "" && userEmail.value === "")
@@ -35,6 +37,7 @@ const submitComment = async () => {
   }
 };
 
+//Read operation
 const fetchComments = async () => {
   if (!showAllComments) return;
   showAllComments = false;
@@ -43,6 +46,7 @@ const fetchComments = async () => {
   return data;
 };
 
+// Delete operation
 const deleteComment = async (id) => {
   console.log(id);
   const response = await fetch(`http://localhost:4000/comments/${id}`, {
@@ -71,6 +75,7 @@ const editComment = async (id) => {
     });
 };
 
+//Update operation
 const updateComment = async (id) => {
   const response = await fetch(`http://localhost:4000/comments/${id}`, {
     method: "PATCH",
@@ -122,26 +127,14 @@ const showComments = (comment) => {
   divInfo.append(divLeft, divRight);
   divContainer.append(divInfo, divActions);
 
-  document.querySelectorAll(".actions .deleteButton").forEach((delBtn) => {
-    delBtn.addEventListener("click", (e) => {
-      console.log("it's clicked");
-      if (e.target.matches(".fa-trash")) {
-        deleteComment(e.target.parentElement.id);
-      }
-      deleteComment(e.target.id);
-    });
+  delBtn.addEventListener("click", (e) => {
+    console.log("it's clicked");
+    deleteComment(e.target.id);
   });
 
-  document.querySelectorAll(".editButton").forEach((editBtn) => {
-    editBtn.addEventListener("click", (e) => {
-      console.log("it's clicked");
-      if (e.target.matches(".fa-edit")) {
-        console.log("it's working");
-        editComment(e.target.parentElement.id);
-      }
-
-      editComment(e.target.id);
-    });
+  editBtn.addEventListener("click", (e) => {
+    console.log("it's clicked");
+    editComment(e.target.id);
   });
 
   return divContainer;
